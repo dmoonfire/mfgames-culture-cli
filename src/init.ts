@@ -1,18 +1,22 @@
 /// <reference path="../typings/node/node.d.ts"/>
 /// <reference path="../typings/yargs/yargs.d.ts"/>
+/// <reference path="../typings/es6-promise/es6-promise.d.ts"/>
 /// <reference path="../node_modules/mfgames-culture-es6/package.d.ts"/>
+/// <reference path="../node_modules/mfgames-culture-node/package.d.ts"/>
 
 import * as yargs from "yargs";
 import * as fs from "fs";
 import * as path from "path";
 import * as mfc from "mfgames-culture";
+import * as mfcn from "mfgames-culture-node";
+import { Promise } from "es6-promise";
 
 // Set up and parse the command line arguments.
 var convertHelp = "Convert various text formats into another one.";
 
 function getConvertArguments(y: any) {
     y.help("help");
-    y.demand(3)
+    y.demand(4)
     y.argv;
 }
 // Combine everything together for the final option object.
@@ -47,7 +51,9 @@ function verifyDataDirectory(directory: string): boolean {
 		return false;
 	}
 
-	// Create a Nodedirectory mapper from this.
+	// Create a mapper from this.
+    var dataProvider = new mfcn.NodeFilesystemCultureDataProvider(directory);
+    var provider = new mfc.CultureProvider(dataProvider);
 	return false;
 }
 
