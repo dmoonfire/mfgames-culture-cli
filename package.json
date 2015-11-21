@@ -1,26 +1,43 @@
 {
-  "name": "mfgames-culture-cli",
-  "version": "0.0.0",
-  "main": "lib/init.js",
-  "devDependencies": {
-    "babel-cli": "^6.1.4",
-    "babel-plugin-transform-es2015-modules-amd": "^6.1.4",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.1.4",
-    "babel-preset-es2015": "^6.1.4",
-    "jasmine-es6": "0.0.18",
-    "mfgames-culture-data": "^0.0.0",
-    "mocha": "^2.3.3"
-  },
-  "scripts": {
-    "test": "jasmine es6/spec/*-spec.js",
-    "build:commonjs": "babel --presets es2015 --plugins transform-es2015-modules-commonjs -d commonjs es6",
-    "build": "npm run build:commonjs"
-  },
-  "dependencies": {
-    "babel-core": "^6.1.4",
-    "es6-promise": "^3.0.2",
-    "mfgames-culture-es6": "^0.0.0",
-    "mfgames-culture-node": "^0.0.0",
-    "yargs": "^3.30.0"
-  }
+	"name": "mfgames-culture-cli",
+	"version": "0.0.0",
+	"description": "A library for handling arbitrary cultures and calendars for fantasy and sci-fi.",
+	"license": "MIT",
+	"author":
+	{
+		"name": "Dylan R. E. Moonfire",
+		"email": "d.moonfire@mfgames.com",
+		"url": "https://d.moonfire.us"
+	},
+	"keywords": ["fantasy", "sci-fi", "calendar"],
+	"scripts":
+	{
+		"lint": "tslint src/*.ts",
+		"prebuild": "npm run lint",
+		"build": "cd src && tsc"
+	},
+	"main": "lib/init.js",
+	"homepage": "https://mfgames.com/mfgames-culture",
+	"repository":
+	{
+		"type": "git",
+		"url": "https://github.com/dmoonfire/mfgames-culture-cli"
+	},
+	"bugs":
+	{
+		"url": "https://github.com/dmoonfire/mfgames-culture-cli/issues"
+	},
+	"devDependencies":
+	{
+		"tslint": "^3.0.0",
+		"typescript": "^1.6.2"
+	},
+	"dependencies":
+	{
+		"es6-promise": "^3.0.2",
+		"mfgames-culture-data": "^0.0.0",
+		"mfgames-culture-js": "^0.0.0",
+		"mfgames-culture-node": "^0.0.0",
+		"yargs": "^3.30.0"
+	}
 }

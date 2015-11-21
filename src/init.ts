@@ -1,13 +1,13 @@
 /// <reference path="../typings/node/node.d.ts"/>
 /// <reference path="../typings/yargs/yargs.d.ts"/>
 /// <reference path="../typings/es6-promise/es6-promise.d.ts"/>
-/// <reference path="../node_modules/mfgames-culture-es6/package.d.ts"/>
-/// <reference path="../node_modules/mfgames-culture-node/package.d.ts"/>
+/// <reference path="../node_modules/mfgames-culture-js/index.d.ts"/>
+/// <reference path="../node_modules/mfgames-culture-node/index.d.ts"/>
 
 import * as yargs from "yargs";
 import * as fs from "fs";
 import * as path from "path";
-import * as mfc from "mfgames-culture";
+import * as mfc from "mfgames-culture-js";
 import * as mfcn from "mfgames-culture-node";
 import { Promise } from "es6-promise";
 
@@ -16,7 +16,7 @@ var convertHelp = "Convert various text formats into another one.";
 
 function getConvertArguments(y: any) {
     y.help("help");
-    y.demand(4)
+    y.demand(4);
     y.argv;
 }
 // Combine everything together for the final option object.
