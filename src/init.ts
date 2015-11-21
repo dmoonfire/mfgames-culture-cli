@@ -15,8 +15,11 @@ import { Promise } from "es6-promise";
 var convertHelp = "Convert various text formats into another one.";
 
 function getConvertArguments(y: any) {
+    y.option("verbose", { alias: "v", type: "boolean" });
+    y.option("format", { alias: "f", type: "string" });
+    y.option("data", { alias: "d", type: "string" });
     y.help("help");
-    y.demand(4);
+    y.demand(3);
     y.argv;
 }
 // Combine everything together for the final option object.
@@ -31,10 +34,13 @@ var argv = yargs
 // Grab the first elements in the argv, that will be the virtual command we are
 // running. Once we have that, pass it into the appropriate function.
 var commandName = argv._.splice(0, 1)[0];
+var verbose = argv.verbose;
+var dataProvider: mfc.CultureDataProvider;
+var cultureProvider: mfc.CultureProvider;
 
 switch (commandName) {
     case "convert":
-		runConvert(argv._);
+        runConvert(argv._);
         break;
 
     default:
@@ -42,25 +48,59 @@ switch (commandName) {
         break;
 }
 
-function verifyDataDirectory(directory: string): boolean {
-	// Make sure the directory exists.
-	var stats = fs.lstatSync(directory);
+function setDataDirectory(): boolean {
+    // Set the data directory, if we can.
+    var directory = argv.data;
 
-	if (!stats.isDirectory) {
-		console.log(directory + " is not a directory");
-		return false;
-	}
+    if (directory) {
+        directory = path.join(__dirname, "..", "node_modules", "mfgames-culture-data");
+    }
 
-	// Create a mapper from this.
-    var dataProvider = new mfcn.NodeFilesystemCultureDataProvider(directory);
-    var provider = new mfc.CultureProvider(dataProvider);
-	return false;
+    // Make sure the directory exists.
+    var stats = fs.lstatSync(directory);
+
+    if (!stats.isDirectory) {
+        console.log(directory + " is not a directory");
+        return false;
+    }
+
+    // Create a mapper from this.
+    dataProvider = new mfcn.NodeFilesystemCultureDataProvider(directory);
+    cultureProvider = new mfc.CultureProvider(dataProvider);
+
+    // We have a successful provider.
+    if (verbose) { console.log("data:", directory); }
+    return true;
 }
 
 function runConvert(args: string[]): void {
-	// The first argument is always the data directory.
-	var dataDirectory = args.splice(0, 1)[0];
-	if (!verifyDataDirectory(dataDirectory)) { return; }
+    // The first argument is always the data directory.
+    if (!setDataDirectory()) { return; }
 
-	console.log("convert_run", argv);
+    // Figure out which format we want.
+    var format = argv.format ? argv.format : "jdn";
+
+    // The second is the culture ID which we load as a promise.
+    var cultureId = args.splice(0, 1)[0];
+    var culturePromise = cultureProvider.getCulturePromise(cultureId);
+
+    if (verbose) { console.log("culture:", cultureId); }
+
+    culturePromise.then(function(c) {
+        // We have a culture, so loop through the remaining elements.
+        for (var input of args) {
+            // Get the instant from parsing the input.
+            var instant = c.parseInstant(input);
+
+            // Figure out how we are going to format.
+            var lowerFormat = format.toLowerCase();
+
+            if (lowerFormat === "jdn" || lowerFormat === "julian") {
+                console.log(instant.julian);
+            } else {
+                var output = c.formatInstant(instant, format);
+                console.log(output);
+            }
+        }
+    });
 }
