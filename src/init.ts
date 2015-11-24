@@ -52,8 +52,8 @@ function setDataDirectory(): boolean {
     // Set the data directory, if we can.
     var directory = argv.data;
 
-    if (directory) {
-        directory = path.join(__dirname, "..", "node_modules", "mfgames-culture-data");
+    if (!directory) {
+        directory = path.join(__dirname, "..", "node_modules", "mfgames-culture-data", "data");
     }
 
     // Make sure the directory exists.
@@ -104,10 +104,12 @@ function runConvert(args: string[]): void {
                     var output = c.formatInstant(instant, format);
                     console.log(output);
                 }
-            } catch(exception) {
+            } catch (exception) {
                 console.log("Cannot parse", input + ": " + exception);
                 throw new Error(exception);
             }
         }
+    }).catch(function(err) {
+        console.log(err);
     });
 }
