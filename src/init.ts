@@ -90,16 +90,23 @@ function runConvert(args: string[]): void {
         // We have a culture, so loop through the remaining elements.
         for (var input of args) {
             // Get the instant from parsing the input.
-            var instant = c.parseInstant(input);
+            if (verbose) { console.log("input: " + input + " (" + format + ")"); }
 
-            // Figure out how we are going to format.
-            var lowerFormat = format.toLowerCase();
+            try {
+                var instant = c.parseInstant(input);
 
-            if (lowerFormat === "jdn" || lowerFormat === "julian") {
-                console.log(instant.julian);
-            } else {
-                var output = c.formatInstant(instant, format);
-                console.log(output);
+                // Figure out how we are going to format.
+                var lowerFormat = format.toLowerCase();
+
+                if (lowerFormat === "jdn" || lowerFormat === "julian") {
+                    console.log(instant.julian);
+                } else {
+                    var output = c.formatInstant(instant, format);
+                    console.log(output);
+                }
+            } catch(exception) {
+                console.log("Cannot parse", input + ": " + exception);
+                throw new Error(exception);
             }
         }
     });
