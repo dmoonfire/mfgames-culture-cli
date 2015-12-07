@@ -33,9 +33,9 @@
   },
   "dependencies": {
     "es6-promise": "^3.0.2",
-    "mfgames-culture-data": "^0.0.0",
-    "mfgames-culture-js": "^0.0.0",
-    "mfgames-culture-node": "^0.0.0",
+    "mfgames-culture-data": ">=0.0.0",
+    "mfgames-culture-js": ">=0.1.0",
+    "mfgames-culture-node": ">=0.1.0",
     "yargs": "^3.30.0"
   }
 }

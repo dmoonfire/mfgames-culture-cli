@@ -1,4 +1,5 @@
 *~
+*.tgz
 
 .tscache
 /.ntvs_analysis.dat
