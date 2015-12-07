@@ -1,0 +1,8 @@
+*~
+*.tgz
+.jsbeautifyrc
+.editorconfig
+tsd.json
+
+typings/
+src/
