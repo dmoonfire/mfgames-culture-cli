@@ -1,6 +1,6 @@
 {
   "name": "mfgames-culture-cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A library for handling arbitrary cultures and calendars for fantasy and sci-fi.",
   "license": "MIT",
   "author": {
