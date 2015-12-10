@@ -100,6 +100,9 @@ function runConvert(args: string[]): void {
 
                 if (lowerFormat === "jdn" || lowerFormat === "julian") {
                     console.log(instant.julian);
+                }
+                else if (lowerFormat === "json") {
+                    console.log(instant);
                 } else {
                     var output = c.formatInstant(instant, format);
                     console.log(output);
